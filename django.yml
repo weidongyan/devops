@@ -1,0 +1,23 @@
+---
+- name: Django install and config
+  hosts: all
+  become: yes
+  become_user: root
+
+  tasks:
+    - name: Install Python36
+      yum:
+        name:
+          - python36
+          - python36-pip
+          - python36-setuptools
+          - python36-devel
+          - python36-libs
+          - gcc
+        state: latest
+
+    - name: Create python virtual environment
+      shell: python3.6 -m venv /home/vagrant/venv
+
+    - name: Install django from pip with a requirement file
+      shell: /home/vagrant/venv/bin/pip install -r requirement.txt
