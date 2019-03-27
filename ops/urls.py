@@ -15,8 +15,22 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from rest_framework.routers import DefaultRouter
+from rest_framework.documentation import include_docs_urls
+from idcs.views import IdcViewset
+from users.views import UserViewset
+from cabinet.views import CabinetViewset
+
+from manufacturer.views import ManufacturerViewset
+
+
+route = DefaultRouter()
+route.register("idcs", IdcViewset, base_name="idcs")
+route.register("users", UserViewset, base_name="users")
+route.register("cabinet", CabinetViewset, base_name="cabinet")
+route.register("Manufacturer", ManufacturerViewset, base_name="Manufacturer")
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^idcs/', include("idcs.urls"))
+    url(r'^', include(route.urls)),
+    url(r'^docs/', include_docs_urls("51reboot运维平台接口文档"))
 ]
